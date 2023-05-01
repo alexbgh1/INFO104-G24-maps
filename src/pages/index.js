@@ -4,9 +4,17 @@ import Head from "next/head";
 import { useState } from "react";
 // Components
 import Map from "../components/Map";
+import Filtros from "../components/Filtros";
 
 export default function Home() {
-  const [filtro, setFiltro] = useState("Comida Rápida");
+  const [filtro, setFiltro] = useState({
+    tipo: "todos",
+    hora: new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+    estrellas: "todos",
+  });
 
   return (
     <>
@@ -16,7 +24,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="main">
+        <h1>Titulo</h1>
+        <Filtros filtro={filtro} setFiltro={setFiltro} />
         <Map filtro={filtro} />
       </main>
     </>
