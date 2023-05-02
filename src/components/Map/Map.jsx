@@ -20,8 +20,18 @@ const myIcon = L.icon({
 
 export default function Map({ filtro }) {
   const position_valdivia = [-39.8192, -73.2389];
-  const [markersData, setMarkersData] = useState(markers.markers);
-  const [markersFiltered, setMarkersFiltered] = useState(markers.markers);
+
+  const markersLS =
+    typeof localStorage !== "undefined"
+      ? localStorage.getItem("markers")
+      : undefined;
+
+  const [markersData, setMarkersData] = useState(
+    markersLS ? JSON.parse(markersLS) : markers.markers
+  );
+  const [markersFiltered, setMarkersFiltered] = useState(
+    markersLS ? JSON.parse(markersLS) : markers.markers
+  );
   const [newRating, setNewRating] = useState(0);
 
   const updateMarkerRating = (markerId, numStars) => {
@@ -47,6 +57,7 @@ export default function Map({ filtro }) {
               }
               return marker;
             });
+            localStorage.setItem("markers", JSON.stringify(newState)); // AQUI se setea en localStorage
             return newState;
           });
         }
